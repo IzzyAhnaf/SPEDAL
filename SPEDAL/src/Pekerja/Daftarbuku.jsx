@@ -21,6 +21,7 @@ const Daftarbuku = () => {
 
     useEffect(() => {
         getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleAddBook = async (data) => {
@@ -28,6 +29,7 @@ const Daftarbuku = () => {
             await API.post('/api/addbuku', data); 
             Swal.fire('Berhasil', 'Buku berhasil ditambahkan.', 'success');
             getData(); 
+        // eslint-disable-next-line no-unused-vars
         } catch (err) {
             Swal.fire('Error', 'Gagal menambahkan buku.', 'error');
         }
@@ -39,6 +41,7 @@ const Daftarbuku = () => {
             Swal.fire('Berhasil', 'Buku berhasil diedit.', 'success');
             getData(); 
             setOpenEdit(false);
+        // eslint-disable-next-line no-unused-vars
         } catch (err) {
             Swal.fire('Error', 'Gagal mengedit buku.', 'error');
         } 
@@ -50,6 +53,7 @@ const Daftarbuku = () => {
             Swal.fire('Berhasil', 'Buku berhasil dihapus.', 'success');
             getData(); 
             setOpenDelete(false);
+        // eslint-disable-next-line no-unused-vars
         } catch (err) {
             Swal.fire('Error', 'Gagal menghapus buku.', 'error');
         }
