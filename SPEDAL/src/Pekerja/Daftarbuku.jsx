@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import lodash from 'lodash';
 import API from '../Functions/API';
 import AddbukuModal from './add/Addbuku';
+import EditbukuModal from './Edit/Editbuku';
+import DeletebukuModal from './Delete/Deletebuku';
 const Daftarbuku = () => {
     const [booksdata, setBooksdata] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [openAdd, setOpenAdd] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
     const [selectedBook, setSelectedBook] = useState(null);
     const [selectedBookid, setSelectedBookid] = useState(null);
 
@@ -29,11 +31,11 @@ const Daftarbuku = () => {
         }
     };
 
-    const handleEditBook = async () => {
+    const handleEditBook = async (data) => {
         try{
-            await API.post('/api/editbuku', { id: selectedBookid });
-            getData(); // refresh list
-            setOpenDelete(false);
+            await API.post('/api/editbuku', data);
+            getData(); 
+            setOpenEdit(false);
         } catch (err) {
             console.error("Gagal menambah pekerja:", err);
         } 
@@ -41,8 +43,8 @@ const Daftarbuku = () => {
 
     const handleDeleteBook = async () => {
         try {
-            await API.post('/api/deletebuku', { id: selectedBookid });
-            getData(); // refresh list
+            await API.post('/api/deletebuku', { uid: selectedBookid });
+            getData(); 
             setOpenDelete(false);
         } catch (err) {
             console.error("Gagal menambah pekerja:", err);
@@ -50,7 +52,7 @@ const Daftarbuku = () => {
     };
 
     const filteredBooks = booksdata.filter(book =>
-        book.uname.toLowerCase().includes(searchQuery.toLowerCase())
+        book.nama .toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
@@ -59,6 +61,18 @@ const Daftarbuku = () => {
             isOpen={openAdd}
             onClose={() => setOpenAdd(false)}
             onSubmit={handleAddBook}
+            />
+            <EditbukuModal
+                isOpen={openEdit}
+                onClose={() => setOpenEdit(false)}
+                onSubmit={handleEditBook}
+                book={selectedBook}
+            />
+            <DeletebukuModal
+                isOpen={openDelete}
+                onClose={() => setOpenDelete(false)}
+                onDelete={handleDeleteBook}
+                bookName={selectedBook}
             />
             <h1 className="text-3xl font-bold mb-5 text-center">List Buku</h1>
             <div className="flex flex-col sm:flex-row justify-between items-center mb-5">
@@ -87,11 +101,12 @@ const Daftarbuku = () => {
                     <thead>
                         <tr>
                             <th className="border px-2 py-1 text-center">No</th>
-                            <th className="border px-2 py-1 text-center">gambar</th>
                             <th className="border px-2 py-1">Judul</th>
                             <th className="border px-2 py-1">Penulis</th>
+                            <th className="border px-2 py-1">Penerbit</th>
                             <th className="border px-2 py-1">Stok</th>
-                            <th className="border px-2 py-1">Peminjaman</th>
+                            <th className="border px-2 py-1">Stok tersedia</th>
+                            <th className='border px-2 py-1'>Pinjam</th>
                             <th className="border px-2 py-1">Aksi</th>
                          </tr>
                     </thead>
@@ -100,15 +115,18 @@ const Daftarbuku = () => {
                             filteredBooks.map((book, index) => (
                                 <tr key={book.uid}>
                                     <td className="border px-2 py-1 text-center">{index + 1}</td>
-                                    <td className="border px-2 py-1">{book.gambar}</td>
                                     <td className="border px-2 py-1">{book.nama}</td>
                                     <td className="border px-2 py-1">{book.penulis}</td>
-                                    <td className="border px-2 py-1">{book.nama}</td>
+                                    <td className="border px-2 py-1">{book.penerbit}</td>
                                     <td className="border px-2 py-1">{book.stok}</td>
-                                    <td className="border px-2 py-1">{book.peminjaman}</td>
-                                    <td className="border px-2 py-1 text-center">
+                                    <td className="border px-2 py-1">{book.stok_tersedia}</td>
+                                    <td className="border px-2 py-1">{book.jumlah_dipinjam}</td>
+                                    <td className="border px-2 py-1 text-center space-x-2">
                                         <button
                                             onClick={() => {
+                                                setSelectedBook(book);
+                                                setSelectedBookid(book.uid);
+                                                setOpenEdit(true);
                                             }}
                                             className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-red-600 text-xs"
                                         >
@@ -116,7 +134,7 @@ const Daftarbuku = () => {
                                         </button>
                                         <button
                                             onClick={() => {
-                                                setSelectedBook(book);
+                                                setSelectedBook(book.nama);
                                                 setSelectedBookid(book.uid);
                                                 setOpenDelete(true);
                                             }}

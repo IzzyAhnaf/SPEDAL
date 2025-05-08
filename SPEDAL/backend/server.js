@@ -364,19 +364,36 @@ fastify.post('/api/pekerjaubahprofil', async (request, reply) => {
 
 fastify.get('/api/listbuku', async (request, reply) => {
     try {
-        const query = 'SELECT * FROM buku';
+        const query = `
+            SELECT 
+                b.*,
+                IFNULL(j.jumlah_dipinjam, 0) AS jumlah_dipinjam,
+                (b.stok - IFNULL(j.jumlah_dipinjam, 0)) AS stok_tersedia
+            FROM buku b
+            LEFT JOIN (
+                SELECT 
+                    uid_buku,
+                    COUNT(*) AS jumlah_dipinjam
+                FROM peminjaman
+                WHERE status IN ('2', '3')
+                GROUP BY uid_buku
+            ) j ON b.uid = j.uid_buku
+        `;
+
         const result = await new Promise((resolve, reject) => {
             db.query(query, (err, results) => {
                 if (err) reject(err);
                 else resolve(results);
             });
         });
+
         reply.send(result);
     } catch (err) {
         console.error(err);
         reply.status(500).send({ message: 'Gagal memproses permintaan' });
     }
-})
+});
+
 
 fastify.post('/api/addbuku', async (request, reply) => {
     const { judul, penulis, penerbit, stok } = request.body;
@@ -398,8 +415,28 @@ fastify.post('/api/addbuku', async (request, reply) => {
 })
 
 fastify.post('/api/editbuku', async (request, reply) => {
-    
-})
+    const { id, nama, penulis, penerbit, stok } = request.body;
+
+    if (!id || !nama || !penulis || !penerbit || stok === undefined) {
+        return reply.code(400).send({ message: 'Semua field harus diisi!' });
+    }
+
+    try {
+        const query = 'UPDATE buku SET nama = ?, penulis = ?, penerbit = ?, stok = ? WHERE uid = ?';
+        const values = [nama, penulis, penerbit, stok, id];
+        await new Promise((resolve, reject) => {
+            db.query(query, values, (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+        reply.code(200).send({ message: 'OK' });
+    } catch (err) {
+        console.error(err);
+        reply.code(500).send({ message: 'Terjadi kesalahan saat mengedit buku.' });
+    }
+});
+
 
 fastify.post('/api/deletebuku', async (request, reply) => {
     const {uid} = request.body;
@@ -418,7 +455,66 @@ fastify.post('/api/deletebuku', async (request, reply) => {
         reply.status(500).send({ message: 'Gagal memproses permintaan' });
     }
 })
-// User
+
+fastify.post('/api/pinjam', async (request, reply) => {
+    const { uid_buku, namaPelanggan, nik, email, kontak, bataswkt} = request.body;
+    try {
+        const query = 'INSERT INTO peminjaman (uid_buku, nm_plgn, nik, email, kontak, status, tanggal_pnjm, bataswkt) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)';
+        const values = [uid_buku, namaPelanggan, nik, email, kontak, '2', bataswkt];
+        await new Promise((resolve, reject) => {
+            db.query(query, values, (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+        reply.send({ message: 'Pesanan berhasil dibuat' });
+    } catch (err) {
+        console.error(err);
+        reply.status(500).send({ message: 'Gagal memproses pesanan' });
+    }
+});
+
+fastify.get('/api/riwayat', async (req, reply) => {
+    try {
+      const query =`
+        SELECT 
+          p.id, p.nm_plgn, p.kontak, p.email, p.nik, p.tanggal_pnjm, p.bataswkt, p.status,
+          b.nama AS nama_buku, b.penulis, b.penerbit
+        FROM peminjaman p
+        JOIN buku b ON p.uid_buku = b.uid
+        ORDER BY p.id DESC
+      `
+      const result = await new Promise((resolve, reject) => {
+        db.query(query, (err, results) => {
+          if (err) reject(err);
+          else resolve(results);
+        });
+      });
+      reply.send(result);
+    } catch (err) {
+      console.error(err);
+      reply.code(500).send({ error: 'Gagal mengambil data peminjaman' });
+    }
+});
+
+fastify.post('/api/kembalikan', async (request, reply) => {
+    const { uid } = request.body;
+    try {
+        const query = 'UPDATE peminjaman SET status = ? WHERE id = ?';
+        const values = ['1', uid];
+        await new Promise((resolve, reject) => {
+            db.query(query, values, (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+        reply.status(200).send({ message: 'OK' });
+    } catch (err) {
+        console.error(err);
+        reply.status(500).send({ message: 'Gagal memproses permintaan' });
+    }
+})
+
 
 // Server
 fastify.listen({ port: 3000, host: 'localhost' }).catch((err) => {
