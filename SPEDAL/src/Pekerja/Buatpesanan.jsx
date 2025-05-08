@@ -52,7 +52,7 @@ const Buatpesanan = () => {
         setFilteredBooks([]);
     };
 
-    const handleSubmit = lodash.debounce(async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await API.post('/api/pinjam', formData);
@@ -78,7 +78,7 @@ const Buatpesanan = () => {
                 text: 'Terjadi kesalahan saat menyimpan data.',
             });
         }
-    }, 500);
+    }
 
     return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">

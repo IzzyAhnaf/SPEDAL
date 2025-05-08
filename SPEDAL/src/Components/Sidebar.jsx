@@ -10,7 +10,6 @@ const Sidebar = ({ role }) => {
       { name: 'Beranda', path: '/Admin' },
       { name: 'Manajemen Pekerja', path: '/Admin/pekerja' },
       { name: 'Manajemen Admin', path: '/Admin/admin' },
-      { name: 'Manajemen User', path: '/Admin/user' },
     ],
     pekerja: [
       { name: 'Beranda', path: '/Pekerja' },

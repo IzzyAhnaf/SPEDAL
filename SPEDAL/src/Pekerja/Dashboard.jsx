@@ -62,14 +62,14 @@ const Dashboardpekerja = () => {
     }
   }, 200);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
       localStorage.removeItem('token');
       sessionStorage.removeItem('token');
-      const resp = API.get('/api/logout');
-      navto('/');
+      const resp = await   API.get('/api/logout');
+      if(resp.status === 200){ navto('/')}
     } catch (err) {
-      console.log(err);
+
     }
   };
 

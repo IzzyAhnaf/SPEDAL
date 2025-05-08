@@ -8,6 +8,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  esbuild: { drop: process.env.NODE_ENV === 'production' ? ['console'] : [] },
   server: {
     host: 'localhost',
     port: 5000,

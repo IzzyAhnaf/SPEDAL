@@ -8,7 +8,6 @@ import lodash from 'lodash'
 import Sidebar from './Components/Sidebar'
 import Vadmin from './Admin/V_admin'
 import Vpekerja from './Admin/V_pekerja'
-import Vuser from './Admin/V_user'
 import Daftarbuku from './Pekerja/Daftarbuku'
 import Riwayat from './Pekerja/Riwayat'
 import Buatpesanan from './Pekerja/Buatpesanan'
@@ -56,20 +55,14 @@ const checkRole = lodash.debounce(async (pathname) => {
               navto('/Admin', { replace: true });
           }else if(role === 'pekerja'){
               navto('/Pekerja', { replace: true });
-          }else if(role === 'user'){
-              navto('/Home', { replace: true });
           }
         }else if(pathname.startsWith('/Admin')){
           if(role === 'pekerja'){
               navto('/Pekerja', { replace: true });
-          }else if(role === 'user'){
-              navto('/Home', { replace: true });
           }
         }else if(pathname.startsWith('/Pekerja')){
           if(role === 'admin'){
               navto('/Admin', { replace: true });
-          }else if(role === 'user'){
-              navto('/Home', { replace: true });
           }
         }
         else if(pathname.startsWith('/Home')){
@@ -117,8 +110,6 @@ useEffect(() => {
             <Route path='/Admin' element={<Dashboardadmin />}></Route>
             <Route path='/Admin/admin' element={<Vadmin />}></Route>
             <Route path='/Admin/pekerja' element={<Vpekerja />}></Route>
-            <Route path='/Admin/user' element={<Vuser />}></Route>
-
             {/* Pekerja */}
             <Route path='/Pekerja' element={<Dashboardpekerja />}></Route>
             <Route path='/Pekerja/tasks' element={<Daftarbuku />}></Route>

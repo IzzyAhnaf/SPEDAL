@@ -3,6 +3,7 @@ import API from "../Functions/API";
 import AddAdminModal from "./Add/AddAdmin";
 import lodash from 'lodash';
 import DeleteAdminModal from "./Delete/DeleteAdmin";
+import Swal from "sweetalert2";
 
 const Vadmin = () => {
     const [usersdata, setUsersdata] = useState([]);
@@ -28,24 +29,25 @@ const Vadmin = () => {
 
     const handleAddAdmin = async (data) => {
         try {
-            await API.post('/api/addadmin', data); // pastikan endpoint ini ada
-            getData(); // refresh list
+            await API.post('/api/addadmin', data);
+            Swal.fire('Berhasil', 'Admin berhasil ditambahkan.', 'success');
+            getData();
         } catch (err) {
-            console.error("Gagal menambah pekerja:", err);
+            Swal.fire('Error', 'Gagal menambahkan admin.', 'error');
         }
     };
 
     const handleDeleteAdmin = async () => {
         try {
-            await API.post('/api/deleteadmin', { uid: selectedAdminid }); // pastikan endpoint ini ada
-            getData(); // refresh list
+            await API.post('/api/deleteadmin', { uid: selectedAdminid });
+            Swal.fire('Berhasil', 'Admin berhasil dihapus.', 'success');
+            getData();
             setOpenDelete(false);
         } catch (err) {
-            console.error("Gagal menambah pekerja:", err);
+            Swal.fire('Error', 'Gagal menghapus admin.', 'error');
         }
     };
 
-    // Filter users based on search query
     const filteredUsers = usersdata.filter(user =>
         user.uname.toLowerCase().includes(searchQuery.toLowerCase())
     );

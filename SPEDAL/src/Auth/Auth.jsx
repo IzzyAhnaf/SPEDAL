@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom"
 import API from "../Functions/API"
-import {useState } from "react"
+import {useEffect, useState } from "react"
+import lodash from 'lodash'
+
 const Authpage = ({type}) => {
     const [userdata, setUserdata] = useState([])
     const [error, setError] = useState([])
-    const [checkbox, setCheckbox] = useState(false)
     const navto = useNavigate()
     const Send = async () => {
         try {
@@ -16,14 +17,7 @@ const Authpage = ({type}) => {
           };
       
           const resp = await API.post(`/api/${type}`, body);
-          if(checkbox){
-          localStorage.setItem('token', JSON.stringify({
-            uname: resp.data.uname,
-            email: resp.data.email,
-            notelp: resp.data.notelp,
-            role: resp.data.role
-          }));
-          }else{
+          if(resp.status === 200){
             sessionStorage.setItem('token', JSON.stringify({
               uname: resp.data.uname,
               email: resp.data.email,
@@ -36,6 +30,22 @@ const Authpage = ({type}) => {
           setError('Kesalahan user atau password')
         }
     };
+
+    const getProfile = lodash.debounce(async () => {
+      try{
+        const resp = await API.get('/api/getprofile', {})
+        if(resp.status === 200){
+          sessionStorage.setItem('token', JSON.stringify(resp.data))
+          navto('/', {replace: true})
+        }
+      }catch(err){
+        
+      }
+    }, 200)
+
+    useEffect(() => {
+      getProfile()
+    }, [])
       
     return (
         <div className="flex items-center justify-center bg-gray-200 min-h-screen px-4">
@@ -100,14 +110,7 @@ const Authpage = ({type}) => {
                   />
                 </div>
               )}
-    
-              {type === "login" && (
-                <div className="flex items-center space-x-2 text-sm">
-                  <input type="checkbox" />
-                  <label>Simpan selama 30 hari</label>
-                </div>
-              )}
-    
+
               <button
                 className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600 transition"
                 onClick={Send}

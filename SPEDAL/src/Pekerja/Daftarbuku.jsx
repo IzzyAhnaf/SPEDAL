@@ -4,6 +4,7 @@ import API from '../Functions/API';
 import AddbukuModal from './add/Addbuku';
 import EditbukuModal from './Edit/Editbuku';
 import DeletebukuModal from './Delete/Deletebuku';
+import Swal from 'sweetalert2';
 const Daftarbuku = () => {
     const [booksdata, setBooksdata] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
@@ -25,29 +26,32 @@ const Daftarbuku = () => {
     const handleAddBook = async (data) => {
         try {
             await API.post('/api/addbuku', data); 
-            getData(); // refresh list
+            Swal.fire('Berhasil', 'Buku berhasil ditambahkan.', 'success');
+            getData(); 
         } catch (err) {
-            console.error("Gagal menambah pekerja:", err);
+            Swal.fire('Error', 'Gagal menambahkan buku.', 'error');
         }
     };
 
     const handleEditBook = async (data) => {
         try{
             await API.post('/api/editbuku', data);
+            Swal.fire('Berhasil', 'Buku berhasil diedit.', 'success');
             getData(); 
             setOpenEdit(false);
         } catch (err) {
-            console.error("Gagal menambah pekerja:", err);
+            Swal.fire('Error', 'Gagal mengedit buku.', 'error');
         } 
     }
 
     const handleDeleteBook = async () => {
         try {
             await API.post('/api/deletebuku', { uid: selectedBookid });
+            Swal.fire('Berhasil', 'Buku berhasil dihapus.', 'success');
             getData(); 
             setOpenDelete(false);
         } catch (err) {
-            console.error("Gagal menambah pekerja:", err);
+            Swal.fire('Error', 'Gagal menghapus buku.', 'error');
         }
     };
 

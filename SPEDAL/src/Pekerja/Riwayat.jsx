@@ -18,9 +18,7 @@ const Riwayat = () => {
         try {
         const res = await axios.get('/api/riwayat');
         setRiwayat(res.data);
-        console.log(res.data);
         } catch (err) {
-        console.error(err);
         Swal.fire('Error', 'Gagal memuat data riwayat', 'error');
         }
     };

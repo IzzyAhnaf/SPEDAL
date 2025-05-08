@@ -3,6 +3,7 @@ import API from "../Functions/API"
 import lodash from 'lodash'
 import AddPekerjaModal from "./Add/AddPekerja";
 import DeletePekerjaModal from "./Delete/DeletePekerja";
+import Swal from "sweetalert2";
 
 const Vpekerja = () => {
     const [usersdata, setUsersdata] = useState([]);
@@ -23,8 +24,9 @@ const Vpekerja = () => {
 
     const handleAddPekerja = async (data) => {
         try {
-            await API.post('/api/addpekerja', data); // pastikan endpoint ini ada
-            getData(); // refresh list
+            await API.post('/api/addpekerja', data);
+            Swal.fire('Berhasil', 'Pekerja berhasil ditambahkan.', 'success');
+            getData(); 
         } catch (err) {
             console.error("Gagal menambah pekerja:", err);
         }
@@ -33,7 +35,8 @@ const Vpekerja = () => {
     const handleDeletePekerja = async () => {
         try {
             await API.post('/api/deletepekerja', { uid: selectedPekerjaid });
-            getData(); // refresh list
+            Swal.fire('Berhasil', 'Pekerja berhasil dihapus.', 'success');
+            getData(); 
             setOpenDelete(false);
         } catch (err) {
             console.error("Gagal menambah pekerja:", err);

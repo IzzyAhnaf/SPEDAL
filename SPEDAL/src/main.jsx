@@ -8,7 +8,6 @@ import Vadmin from './Admin/V_admin.jsx'
 import Vpekerja from './Admin/V_pekerja.jsx'
 import Dashboardadmin from './Admin/Dashboard.jsx'
 import Dashboardpekerja from './Pekerja/Dashboard.jsx'
-import Vuser from './Admin/V_user.jsx'
 import Daftarbuku from './Pekerja/Daftarbuku.jsx'
 import Buatpesanan from './Pekerja/Buatpesanan.jsx'
 import Riwayat from './Pekerja/Riwayat.jsx'
@@ -30,10 +29,6 @@ const router = createBrowserRouter([
             path: '/Admin/pekerja',
             element: <Vpekerja />,
           },
-          {
-            path: '/Admin/user',
-            element: <Vuser />,
-          }
         ]
       },
       {

@@ -62,19 +62,19 @@ const Dashboardadmin = () => {
     }
   }, 200);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
       localStorage.removeItem('token');
       sessionStorage.removeItem('token');
-      const resp = API.get('/api/logout');
-      navto('/');
+      const resp = await   API.get('/api/logout');
+      if(resp.status === 200){ navto('/')}
     } catch (err) {
-      console.log(err);
+
     }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (token) {
       const decoded = JSON.parse(token);
       setUserdata(decoded);

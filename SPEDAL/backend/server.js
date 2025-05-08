@@ -1,6 +1,7 @@
 const fastify = require('fastify')({ logger: true });
 const { v4: uuidv4 } = require('uuid');
 const mysql = require('mysql');
+const nodemailer = require('nodemailer');
 const jwt = require('@fastify/jwt');
 const cors = require('@fastify/cors');
 fastify.register(require('@fastify/formbody'));
@@ -38,6 +39,14 @@ db.connect((err) => {
     }
 });
 
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'waduhajaahnaf@apps.ipb.ac.id',
+        pass: 'beif xjbg odpx ehyv'
+    }
+});
+
 function handleDisconnect() {
     db = mysql.createConnection(db.config);
     db.connect((err) => {
@@ -67,7 +76,6 @@ fastify.post('/api/login', async (request, reply) => {
       const query = 'SELECT * FROM user WHERE (uname = ? OR email = ? OR notelp = ?) AND pwd = ?';
       const values = [username, username, username, password];
   
-      // Bungkus db.query dalam Promise agar bisa pakai await
       const result = await new Promise((resolve, reject) => {
         db.query(query, values, (err, results) => {
           if (err) reject(err);
@@ -79,13 +87,22 @@ fastify.post('/api/login', async (request, reply) => {
         const user = result[0];
         const token = fastify.jwt.sign({ uid: user.uid, role: user.role });
   
+        // Set cookie langsung (default maxAge 1 hari misalnya)
         reply
           .setCookie('token', token, {
             httpOnly: true,
-            secure: false, // set true jika di https
+            secure: false, // set ke true jika HTTPS
+            path: '/api',
+            maxAge: 60 * 60 * 24 // 1 hari dalam detik
           })
           .code(200)
-          .send({ message: 'Login success', uname: user.uname, email: user.email, notelp: user.notelp, role: user.role });
+          .send({
+            message: 'Login success',
+            uname: user.uname,
+            email: user.email,
+            notelp: user.notelp,
+            role: user.role
+          });
       } else {
         return reply.code(401).send({ message: 'Login failed' });
       }
@@ -93,16 +110,13 @@ fastify.post('/api/login', async (request, reply) => {
       console.error(err);
       return reply.code(500).send({ message: 'Internal server error' });
     }
-  });
-  
-
-fastify.post('/register', async (request, reply) => {
-    
-})
-
-fastify.get('/api/logout', async (request, reply) => {
-    reply.clearCookie('token').code(200).send({ message: 'Logout success' });
 });
+  
+fastify.get('/api/logout', async (request, reply) => {
+    reply.clearCookie('token', { path: '/api' })
+    .status(200)
+    .send({ message: 'Logout success' });
+  });
 
 // OnHook
 fastify.addHook('onRequest', async (request, reply) => {
@@ -457,20 +471,38 @@ fastify.post('/api/deletebuku', async (request, reply) => {
 })
 
 fastify.post('/api/pinjam', async (request, reply) => {
-    const { uid_buku, namaPelanggan, nik, email, kontak, bataswkt} = request.body;
+    const { uid_buku, namaPelanggan, nik, email, kontak, bataswkt } = request.body;
+  
     try {
-        const query = 'INSERT INTO peminjaman (uid_buku, nm_plgn, nik, email, kontak, status, tanggal_pnjm, bataswkt) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)';
-        const values = [uid_buku, namaPelanggan, nik, email, kontak, '2', bataswkt];
-        await new Promise((resolve, reject) => {
-            db.query(query, values, (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
+      const query = 'INSERT INTO peminjaman (uid_buku, nm_plgn, nik, email, kontak, status, tanggal_pnjm, bataswkt) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)';
+      const values = [uid_buku, namaPelanggan, nik, email, kontak, '2', bataswkt];
+  
+      await new Promise((resolve, reject) => {
+        db.query(query, values, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
         });
-        reply.send({ message: 'Pesanan berhasil dibuat' });
+      });
+  
+      const mailOptions = {
+        from: 'waduhajaahnaf@apps.ipb.ac.id',
+        to: email,
+        subject: 'Perpustakaan Digital - Konfirmasi Peminjaman',
+        text:   `Halo ${namaPelanggan},
+                
+                Peminjaman buku Anda telah berhasil dilakukan pada tanggal ${new Date().toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' })}.
+                Mohon mengembalikan buku paling lambat pada tanggal ${bataswkt} untuk menghindari denda keterlambatan.
+                
+                Terima kasih,
+                Tim Perpustakaan`
+      };
+  
+      await transporter.sendMail(mailOptions);
+  
+      reply.send({ message: 'Peminjaman berhasil dan email terkirim' });
     } catch (err) {
-        console.error(err);
-        reply.status(500).send({ message: 'Gagal memproses pesanan' });
+      console.error(err);
+      reply.status(500).send({ message: 'Gagal memproses peminjaman', error: err.message });
     }
 });
 
