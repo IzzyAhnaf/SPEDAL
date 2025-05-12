@@ -24,7 +24,7 @@ fastify.register(cors, (instance) => {
 });
 
 const db = mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST || 'mysql',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'spedal'
@@ -549,7 +549,7 @@ fastify.post('/api/kembalikan', async (request, reply) => {
 
 
 // Server
-fastify.listen({ port: 3000, host: 'localhost' }).catch((err) => {
+fastify.listen({ port: 3000, host: '0.0.0.0' }).catch((err) => {
     fastify.log.error(err);
     process.exit(1);
 });

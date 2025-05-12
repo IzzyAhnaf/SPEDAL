@@ -10,11 +10,12 @@ export default defineConfig({
   ],
   esbuild: { drop: process.env.NODE_ENV === 'production' ? ['console'] : [] },
   server: {
-    host: 'localhost',
+    host: '0.0.0.0',
     port: 5000,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: process.env.NODE_ENV === 'production' ? 
+        'http://backend:3000' : 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
       },
