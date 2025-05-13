@@ -10,6 +10,7 @@ services:
       - ./backend:/app/backend
     ports:
       - "3000:3000"
+    restart: unless-stopped
     environment:
       DB_HOST: mysql
       DB_USER: root
