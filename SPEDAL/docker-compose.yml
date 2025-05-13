@@ -5,7 +5,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.backend
-    working_dir: /app
+    working_dir: /app/backend
+    volumes:
+      - ./backend:/app/backend
     ports:
       - "3000:3000"
     environment:
