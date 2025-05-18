@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import axios from 'axios';
 import SPnjmModal from './add/Selesaipinjaman';
 import API from '../Functions/API';
 
@@ -12,8 +11,8 @@ const Riwayat = () => {
 
     const fetchRiwayat = async () => {
       try {
-      const res = await axios.get('/api/riwayat');
-      setRiwayatdata(res.data);
+      const res = await API.get('/api/riwayat');
+      setRiwayatdata(Array.isArray(res.data) ? res.data : res.data.data || []);
       // eslint-disable-next-line no-unused-vars
       } catch (err) {
       Swal.fire('Error', 'Gagal memuat data riwayat', 'error');
@@ -82,7 +81,7 @@ const Riwayat = () => {
             onConfirm={handleConfirm}
             data={selectedData}
         />
-      <h1 className="text-3xl font-bold mb-5 text-center">List Buku</h1>
+      <h1 className="text-3xl font-bold mb-5 text-center">Riwayat Pinjam</h1>
       <div className="flex flex-col sm:flex-row justify-between items-center mb-5">
         {/* Kolom Pencarian */}
         <div className="relative w-full sm:w-auto">

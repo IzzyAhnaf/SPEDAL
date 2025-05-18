@@ -25,9 +25,13 @@ fastify.register(cors, (instance) => {
 
 
 let db = mysql.createConnection({
-    host: 'db',
-    user: 'izzy',
-    password: 'izzy123',
+    // host: 'db',
+    // user: 'izzy',
+    // password: 'izzy123',
+    // database: 'spedal'
+    host: 'localhost',
+    user: 'root',
+    password: '',
     database: 'spedal'
   });
   
