@@ -1,6 +1,6 @@
 const fastify = require('fastify')({ logger: true });
 const { v4: uuidv4 } = require('uuid');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const nodemailer = require('nodemailer');
 const jwt = require('@fastify/jwt');
 const cors = require('@fastify/cors');
@@ -23,11 +23,12 @@ fastify.register(cors, (instance) => {
     };
 });
 
-const db = mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'spedal'
+
+let db = mysql.createConnection({
+    host: 'db',
+    user: 'izzy',
+    password: 'izzy123',
+    database: 'spedal'
   });
   
 db.connect((err) => {

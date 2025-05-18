@@ -1,44 +1,47 @@
-version: '3.8'
+  version: '3.8'
 
-services:
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile.backend
-    working_dir: /app/backend
-    volumes:
-      - ./backend:/app/backend
-    ports:
-      - "3000:3000"
-    restart: unless-stopped
-    environment:
-      DB_HOST: mysql
-      DB_USER: root
-      DB_PASSWORD: ''
-      DB_NAME: spedal
-    depends_on:
-      - mysql
+  services:
+    backend:
+      build:
+        context: .
+        dockerfile: Dockerfile.backend
+      working_dir: /app/backend
+      volumes:
+        - ./backend:/app/backend
+      ports:
+        - "3000:3000"
+      restart: unless-stopped
+      environment:
+        DB_HOST: db
+        DB_USER: izzy
+        DB_PASSWORD: "izzy123"
+        DB_NAME: spedal
+      depends_on:
+        - db
 
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    ports:
-      - "5000:80"
-    depends_on:
-      - backend
+    frontend:
+      build:
+        context: .
+        dockerfile: Dockerfile.frontend
+      ports:
+        - "5000:80"
+      depends_on:
+        - backend
 
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    restart: always
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: your_password
-      MYSQL_DATABASE: your_database
-    volumes:
-      - mysql-data:/var/lib/mysql
-
-volumes:
-  mysql-data:
+    db:
+      image: mysql:8.0
+      container_name: spedal
+      restart: always
+      ports:
+        - "3306:3306"
+      environment:
+        MYSQL_USER: izzy
+        MYSQL_PASSWORD: "izzy123"
+        MYSQL_ROOT_PASSWORD: 'root'
+        MYSQL_DATABASE: spedal
+      volumes:
+        - ./spedal.sql:/docker-entrypoint-initdb.d/spedal.sql
+      command: --default-authentication-plugin=mysql_native_password
+        
+  volumes:
+    db-data:
