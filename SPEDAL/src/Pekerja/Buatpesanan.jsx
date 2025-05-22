@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import API from '../Functions/API';
 import lodash from 'lodash';
@@ -29,6 +30,7 @@ const Buatpesanan = () => {
     useEffect(() => {
 
         fetchBooks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -81,95 +83,107 @@ const Buatpesanan = () => {
     }
 
     return (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold mb-4 text-center">Buat Pesanan Peminjaman</h1>
-            <form onSubmit={handleSubmit} className="space-y-4 relative">
-                <div>
-                    <p>Buku</p>
-                    <input
-                        type="text"
-                        name="search"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Cari judul buku"
-                        className="w-full border px-3 py-2 rounded"
-                        autoComplete="off"
-                        required
-                    />
-                    {filteredBooks.length > 0 && (
-                        <ul className="absolute z-10 w-full bg-white border mt-1 max-h-40 overflow-y-auto rounded shadow">
-                            {filteredBooks.map((buku) => (
-                                <li
-                                    key={buku.uid}
-                                    className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
-                                    onClick={() => handleBookSelect(buku)}
-                                >
-                                    {buku.nama} - {buku.penulis}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
+        <div className='bg-[url("/g_perpus.jpg")] h-full flex items-center justify-center'>
+            <div className="bg-white w-[98%] mx-auto p-5 h-[95%] rounded-md">
+                <h1 className="text-2xl font-bold mb-4 text-center">Buat Pesanan Peminjaman</h1>
+                <form onSubmit={handleSubmit} className="space-y-4 relative">
+                    <div className='flex md:flex-row flex-col justify-between p-3 gap-3'>
+                        <div className='w-full'>
+                            <p>Buku</p>
+                            <input
+                                type="text"
+                                name="search"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                placeholder="Cari judul buku"
+                                className="w-full border px-3 py-2 rounded"
+                                autoComplete="off"
+                                required
+                            />
+                            {filteredBooks.length > 0 && (
+                                <ul className="absolute z-10 w-full bg-white border mt-1 max-h-40 overflow-y-auto rounded shadow">
+                                    {filteredBooks.map((buku) => (
+                                        <li
+                                            key={buku.uid}
+                                            className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                                            onClick={() => handleBookSelect(buku)}
+                                        >
+                                            {buku.nama} - {buku.penulis}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                        <div className='w-full'>
+                            <p>Nama Pelanggan</p>
+                            <input
+                                type="text"
+                                name="namaPelanggan"
+                                value={formData.namaPelanggan}
+                                onChange={handleChange}
+                                className="w-full border px-3 py-2 rounded"
+                                required
+                            />
+                        </div>
+                    </div>
 
-                <div>
-                    <p>Nama Pelanggan</p>
-                    <input
-                        type="text"
-                        name="namaPelanggan"
-                        value={formData.namaPelanggan}
-                        onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                    />
-                </div>
-                <div>
-                    <p>Kontak</p>
-                    <input
-                        type="number"
-                        name="kontak"
-                        value={formData.kontak}
-                        onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                    />
-                </div>
-                <div>
-                    <p>Email</p>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                    />
-                </div>
-                <div>
-                    <p>NIK</p>
-                    <input
-                        type="number"
-                        name="nik"
-                        value={formData.nik}
-                        onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                    />
-                </div>
-                <div>
-                    <p>Tanggal Pengembalian</p>
-                    <input
-                        type="date"
-                        name="bataswkt"
-                        value={formData.bataswkt}
-                        onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                    />
-                </div>
-                <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
-                    Buat Pesanan
-                </button>
-            </form>
+                    <div className='flex md:flex-row flex-col justify-between p-3 gap-3'>
+                        <div className='w-full'>
+                            <p>Kontak</p>
+                            <input
+                                type="number"
+                                name="kontak"
+                                value={formData.kontak}
+                                onChange={handleChange}
+                                className="w-full border px-3 py-2 rounded"
+                                required
+                            />
+                        </div>
+                        <div className='w-full'>
+                            <p>Email</p>
+                            <input
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="w-full border px-3 py-2 rounded"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className='flex md:flex-row flex-col justify-between p-3 gap-3'>
+                        <div className='w-full'>
+                            <p>NIK</p>
+                            <input
+                                type="number"
+                                name="nik"
+                                value={formData.nik}
+                                onChange={handleChange}
+                                className="w-full border px-3 py-2 rounded"
+                                required
+                            />
+                        </div>
+                        <div className='w-full'>
+                            <p>Tanggal Pengembalian</p>
+                            <input
+                                type="date"
+                                name="bataswkt"
+                                value={formData.bataswkt}
+                                onChange={handleChange}
+                                className="w-full border px-3 py-2 rounded"
+                                required
+                            />
+                        </div>
+                    </div>
+                    
+                    <div className="flex justify-end">
+                        <button type="submit" className="md:w-sm w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
+                            Buat Pesanan
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

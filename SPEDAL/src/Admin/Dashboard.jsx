@@ -1,3 +1,6 @@
+/* eslint-disable no-empty */
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaPencilAlt, FaCheck } from 'react-icons/fa';
@@ -86,102 +89,111 @@ const Dashboardadmin = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center h-full w-full px-4 sm:px-8 md:px-16">
-      <h1 className="text-3xl font-bold m-5">Dashboard Admin</h1>
-      <CgProfile size={300} className="mb-5" />
+    <div className='bg-[url("/g_perpus.jpg")] h-full flex items-center justify-center'>
+      <div className="flex flex-col bg-white h-[95%] w-[98%] px-4 sm:px-8 md:px-16 rounded-md">
+        <h1 className="text-3xl font-bold m-5 text-center">Profil Admin</h1>
+        <div className="flex flex-col sm:flex-row sm:space-x-10 justify-center mt-5 w-full">
 
-      <div className="flex flex-col sm:flex-row sm:space-x-10 justify-center mt-5 w-full">
-        {/* Label */}
-        <div className="w-full sm:w-[200px] space-y-3">
-          <p>Nama</p>
-          <p>Email</p>
-          <p>No. Telp</p>
+          {/* Data */}
+          <div className="w-full space-y-3">
+
+            <div className='flex justify-between p-3 gap-3 sm:flex-row flex-col w-full '>
+              {/* Nama */}
+              <div className='w-full'>
+                <h2>Nama</h2>
+                <div className="flex items-center justify-between space-x-2 w-full">
+                  {editnama ? (
+                    <>
+                      <input
+                        type="text"
+                        className="outline-none border rounded px-2 py-1 w-full"
+                        placeholder={userdata.uname || 'Nama'}
+                        value={editdata.uname || ''}
+                        onChange={(e) => setEditdata({ ...editdata, uname: e.target.value })}
+                      />
+                      <div className="flex space-x-2">
+                        <FaCheck
+                          onClick={() => {
+                            Send(1);
+                            setUserdata({ ...userdata, uname: editdata.uname });
+                            setEditnama(false);
+                          }}
+                          className="cursor-pointer text-green-600"
+                        />
+                        <ImCross
+                          onClick={() => setEditnama(false)}
+                          className="cursor-pointer text-red-600"
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p className="w-full py-1">{userdata.uname}</p>
+                      <FaPencilAlt onClick={() => setEditnama(true)} className="cursor-pointer" />
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Email */}
+              <div className='w-full'>
+                <h2>Email</h2>
+                <div className="flex items-center justify-between space-x-2 w-full">
+                  <input type="text"
+                  className="outline-none bg-gray-200 px-2 py-1 w-full rounded"
+                  disabled
+                  value={userdata.email}/>
+                </div>
+              </div>
+            </div>
+
+            <div className='w-full p-3'>
+              {/* No. Telp */}
+              <h2>No. Telp</h2>
+              <div className="flex items-center justify-between space-x-2">
+                {editnotelp ? (
+                  <>
+                    <input
+                      type="text"
+                      className="outline-none border rounded px-2 py-1 w-full"
+                      placeholder={userdata.notelp || 'Nomor Telp'}
+                      value={editdata.notelp || ''}
+                      onChange={(e) => setEditdata({ ...editdata, notelp: e.target.value })}
+                    />
+                    <div className="flex space-x-2">
+                      <FaCheck
+                        onClick={() => {
+                          Send(2);
+                          setUserdata({ ...userdata, notelp: editdata.notelp });
+                          setEditnotelp(false);
+                        }}
+                        className="cursor-pointer text-green-600"
+                      />
+                      <ImCross
+                        onClick={() => setEditnotelp(false)}
+                        className="cursor-pointer text-red-600"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <p className="w-full py-1">{userdata.notelp}</p>
+                    <FaPencilAlt onClick={() => setEditnotelp(true)} className="cursor-pointer" />
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Data */}
-        <div className="w-full sm:w-[250px] space-y-3">
-          {/* Nama */}
-          <div className="flex items-center justify-between space-x-2">
-            {editnama ? (
-              <>
-                <input
-                  type="text"
-                  className="outline-none border px-2 py-1 w-full"
-                  placeholder={userdata.uname || 'Nama'}
-                  value={editdata.uname || ''}
-                  onChange={(e) => setEditdata({ ...editdata, uname: e.target.value })}
-                />
-                <div className="flex space-x-2">
-                  <FaCheck
-                    onClick={() => {
-                      Send(1);
-                      setUserdata({ ...userdata, uname: editdata.uname });
-                      setEditnama(false);
-                    }}
-                    className="cursor-pointer text-green-600"
-                  />
-                  <ImCross
-                    onClick={() => setEditnama(false)}
-                    className="cursor-pointer text-red-600"
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <p className="w-full">{userdata.uname}</p>
-                <FaPencilAlt onClick={() => setEditnama(true)} className="cursor-pointer" />
-              </>
-            )}
-          </div>
-
-          {/* Email */}
-          <div className="flex items-center justify-between">
-            <p>{userdata.email}</p>
-          </div>
-
-          {/* No. Telp */}
-          <div className="flex items-center justify-between space-x-2">
-            {editnotelp ? (
-              <>
-                <input
-                  type="text"
-                  className="outline-none border px-2 py-1 w-full"
-                  placeholder={userdata.notelp || 'Nomor Telp'}
-                  value={editdata.notelp || ''}
-                  onChange={(e) => setEditdata({ ...editdata, notelp: e.target.value })}
-                />
-                <div className="flex space-x-2">
-                  <FaCheck
-                    onClick={() => {
-                      Send(2);
-                      setUserdata({ ...userdata, notelp: editdata.notelp });
-                      setEditnotelp(false);
-                    }}
-                    className="cursor-pointer text-green-600"
-                  />
-                  <ImCross
-                    onClick={() => setEditnotelp(false)}
-                    className="cursor-pointer text-red-600"
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <p className="w-full">{userdata.notelp}</p>
-                <FaPencilAlt onClick={() => setEditnotelp(true)} className="cursor-pointer" />
-              </>
-            )}
-          </div>
+        <div className="w-full sm:w-[200px] mt-5 ml-auto">
+          <button
+            className="bg-red-500 text-white w-full py-2 rounded hover:bg-red-600 transition"
+            onClick={handleLogout}
+          >
+            Keluar
+          </button>
         </div>
-      </div>
-
-      <div className="w-full sm:w-[200px] mt-8">
-        <button
-          className="bg-red-500 text-white w-full py-2 rounded hover:bg-red-600 transition"
-          onClick={handleLogout}
-        >
-          Keluar
-        </button>
       </div>
     </div>
   );
