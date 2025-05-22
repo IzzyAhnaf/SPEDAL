@@ -8,8 +8,8 @@ const Sidebar = ({ role }) => {
   const menuItems = {
     admin: [
       { name: 'Beranda', path: '/Admin' },
-      { name: 'Manajemen Pekerja', path: '/Admin/pekerja' },
-      { name: 'Manajemen Admin', path: '/Admin/admin' },
+      { name: 'Daftar Pekerja', path: '/Admin/pekerja' },
+      { name: 'Daftar Admin', path: '/Admin/admin' },
     ],
     pekerja: [
       { name: 'Beranda', path: '/Pekerja' },
