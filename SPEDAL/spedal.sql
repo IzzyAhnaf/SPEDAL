@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2025 at 11:47 AM
+-- Generation Time: May 23, 2025 at 12:11 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,6 +41,7 @@ CREATE TABLE `buku` (
 --
 
 INSERT INTO `buku` (`uid`, `nama`, `penulis`, `penerbit`, `stok`, `create_at`) VALUES
+('323a9977-6ef9-47', 'The Silent Patient', 'Alex Michaelides', 'Celadon Books', 6, '2025-05-22 13:52:54'),
 ('b4712677-d64e-4c', 'Atomic Habits', 'James Clear', 'Gramedia', 70, '2025-05-11 09:46:23');
 
 -- --------------------------------------------------------
@@ -67,7 +68,8 @@ CREATE TABLE `peminjaman` (
 
 INSERT INTO `peminjaman` (`id`, `uid_buku`, `nm_plgn`, `nik`, `email`, `kontak`, `status`, `tanggal_pnjm`, `bataswkt`) VALUES
 (3, 'b4712677-d64e-4c', 'Lamir', 19872831312312, 'L@gmail.com', 19872831312312, '1', '2025-05-11 09:46:53', '2025-05-30'),
-(4, 'b4712677-d64e-4c', 'Japra', 9018390183908321, 'mantapsantuy884@gmail.com', 9018390183908321, '2', '2025-05-11 09:46:44', '2025-05-31');
+(4, 'b4712677-d64e-4c', 'Japra', 9018390183908321, 'mantapsantuy884@gmail.com', 9018390183908321, '2', '2025-05-11 09:46:44', '2025-05-31'),
+(5, '323a9977-6ef9-47', 'Mimir', 913286231321, 'bijibapuk94@gmail.com', 182733321213, '2', '2025-05-22 13:54:57', '2025-05-31');
 
 -- --------------------------------------------------------
 
@@ -89,9 +91,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`uid`, `email`, `uname`, `pwd`, `notelp`, `role`) VALUES
-('80817abb-839d-4b8f-a348-bf2b70f9150f', 'm@gmail.com', 'Ma', '123', 9087345612312983, 'pekerja'),
+('80817abb-839d-4b8f-a348-bf2b70f9150f', 'm@gmail.com', 'Magud', '123', 9087345612312983, 'pekerja'),
 ('e7b37c54-35f4-48f8-bd95-c68d9ad15a16', 'w@gmail.com', 'w', '123', 9087345612312123, 'admin'),
-('fb5332a7-940b-4586-8013-5486d3b23401', 'K@gmail.com', 'Ka', '123', 9876543212345678, 'admin');
+('fb5332a7-940b-4586-8013-5486d3b23401', 'K@gmail.com', 'Kasimir', '123', 9876543212345678, 'admin');
 
 --
 -- Indexes for dumped tables
@@ -124,7 +126,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
