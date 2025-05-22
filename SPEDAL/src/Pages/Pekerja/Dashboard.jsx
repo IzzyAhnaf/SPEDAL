@@ -1,15 +1,13 @@
 /* eslint-disable no-empty */
-/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaPencilAlt, FaCheck } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
-import { CgProfile } from 'react-icons/cg';
 import lodash from 'lodash';
-import API from '../Functions/API';
+import API from '@functions/API';
 
-const Dashboardadmin = () => {
+const Dashboardpekerja = () => {
   const [userdata, setUserdata] = useState({});
   const [editdata, setEditdata] = useState({ uname: '', notelp: '' });
   const [editnama, setEditnama] = useState(false);
@@ -32,7 +30,7 @@ const Dashboardadmin = () => {
         body.status = 'notelp';
       }
 
-      const resp = await API.post('/api/adminubahprofil', body, {
+      const resp = await API.post('/api/pekerjaubahprofil', body, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -61,7 +59,7 @@ const Dashboardadmin = () => {
         }
       }
     } catch (err) {
-      console.log(err);
+
     }
   }, 200);
 
@@ -77,7 +75,7 @@ const Dashboardadmin = () => {
   };
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (token) {
       const decoded = JSON.parse(token);
       setUserdata(decoded);
@@ -91,7 +89,7 @@ const Dashboardadmin = () => {
   return (
     <div className='bg-[url("/g_perpus.jpg")] h-full flex items-center justify-center'>
       <div className="flex flex-col bg-white h-[95%] w-[98%] px-4 sm:px-8 md:px-16 rounded-md">
-        <h1 className="text-3xl font-bold m-5 text-center">Profil Admin</h1>
+        <h1 className="text-3xl font-bold m-5 text-center">Profil Pekerja</h1>
         <div className="flex flex-col sm:flex-row sm:space-x-10 justify-center mt-5 w-full">
 
           {/* Data */}
@@ -199,4 +197,4 @@ const Dashboardadmin = () => {
   );
 };
 
-export default Dashboardadmin;
+export default Dashboardpekerja;

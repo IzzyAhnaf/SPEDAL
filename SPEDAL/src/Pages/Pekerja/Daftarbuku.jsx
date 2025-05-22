@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import lodash from 'lodash';
-import API from '../Functions/API';
-import AddbukuModal from './add/Addbuku';
-import EditbukuModal from './Edit/Editbuku';
-import DeletebukuModal from './Delete/Deletebuku';
+import API from '@functions/API';
+import EditbukuModal from '@components/Modal/Pekerja/Editbuku';
+import AddbukuModal from '@components/Modal/Pekerja/Addbuku';
+import DeletebukuModal from '@components/Modal/Pekerja/Deletebuku';
 import Swal from 'sweetalert2';
 const Daftarbuku = () => {
     const [booksdata, setBooksdata] = useState([]);

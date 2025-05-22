@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import SPnjmModal from './add/Selesaipinjaman';
-import API from '../Functions/API';
+import SPnjmModal from '@components/Modal/Pekerja/Selesaipinjaman';
+import API from '@functions/API';
 
 const Riwayat = () => {
     const [modalOpen, setModalOpen] = useState(false);

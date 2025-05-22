@@ -1,16 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
-import Dashboardadmin from './Admin/Dashboard'
-import Loginpage from './Login'
-import Dashboardpekerja from './Pekerja/Dashboard'
 import API from './Functions/API'
 import lodash from 'lodash'
+import Loginpage from './Pages/Login' 
+import Dashboardadmin from './Pages/Admin/Dashboard'
+import Dashboardpekerja from './Pages/Pekerja/Dashboard'
+import Vadmin from './Pages/Admin/V_admin'
+import Vpekerja from './Pages/Admin/V_pekerja'
+import Daftarbuku from './Pages/Pekerja/Daftarbuku'
+import Buatpesanan from './Pages/Pekerja/Buatpesanan'
+import Riwayat from './Pages/Pekerja/Riwayat'
 import Sidebar from './Components/Sidebar'
-import Vadmin from './Admin/V_admin'
-import Vpekerja from './Admin/V_pekerja'
-import Daftarbuku from './Pekerja/Daftarbuku'
-import Riwayat from './Pekerja/Riwayat'
-import Buatpesanan from './Pekerja/Buatpesanan'
+
 
 function App() {
 const navto = useNavigate()

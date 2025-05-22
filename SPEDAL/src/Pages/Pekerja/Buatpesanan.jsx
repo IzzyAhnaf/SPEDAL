@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
-import API from '../Functions/API';
+import API from '@functions/API';
 import lodash from 'lodash';
 import Swal from 'sweetalert2';
 

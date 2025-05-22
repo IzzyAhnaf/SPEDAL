@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import API from "../Functions/API";
-import AddAdminModal from "./Add/AddAdmin";
+import API from "@functions/API";
+import AddAdminModal from "@components/Modal/Admin/AddAdmin";
 import lodash from 'lodash';
-import DeleteAdminModal from "./Delete/DeleteAdmin";
+import DeleteAdminModal from "@components/Modal/Admin/DeleteAdmin";
 import Swal from "sweetalert2";
 
 const Vadmin = () => {

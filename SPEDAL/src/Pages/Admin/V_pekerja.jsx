@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react" 
-import API from "../Functions/API"
+import API from "@functions/API"
 import lodash from 'lodash'
-import AddPekerjaModal from "./Add/AddPekerja";
-import DeletePekerjaModal from "./Delete/DeletePekerja";
+import AddPekerjaModal from "@components/Modal/Admin/AddPekerja";
+import DeletePekerjaModal from "@components/Modal/Admin/DeletePekerja";
 import Swal from "sweetalert2";
 
 const Vpekerja = () => {

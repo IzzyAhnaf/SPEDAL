@@ -3,14 +3,15 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Loginpage from './Login.jsx'
-import Vadmin from './Admin/V_admin.jsx'
-import Vpekerja from './Admin/V_pekerja.jsx'
-import Dashboardadmin from './Admin/Dashboard.jsx'
-import Dashboardpekerja from './Pekerja/Dashboard.jsx'
-import Daftarbuku from './Pekerja/Daftarbuku.jsx'
-import Buatpesanan from './Pekerja/Buatpesanan.jsx'
-import Riwayat from './Pekerja/Riwayat.jsx'
+import Loginpage from './Pages/Login.jsx'
+import Dashboardadmin from './Pages/Admin/Dashboard.jsx'
+import Dashboardpekerja from './Pages/Pekerja/Dashboard.jsx'
+import Vadmin from './Pages/Admin/V_admin.jsx'
+import Vpekerja from './Pages/Admin/V_pekerja.jsx'
+import Daftarbuku from './Pages/Pekerja/Daftarbuku.jsx'
+import Buatpesanan from './Pages/Pekerja/Buatpesanan.jsx'
+import Riwayat from './Pages/Pekerja/Riwayat.jsx'
+
 
 const router = createBrowserRouter([
   {
