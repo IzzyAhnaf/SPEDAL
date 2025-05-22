@@ -31,6 +31,7 @@ export default defineConfig({
       '@pages': path.resolve(__dirname, 'src/Pages'),
       '@utils': path.resolve(__dirname, 'src/Utils'),
       '@functions': path.resolve(__dirname, 'src/Functions'),
+      '@templates': path.resolve(__dirname, 'src/Templates'),
     },
   },
 })

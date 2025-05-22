@@ -1,5 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-empty */
+/* eslint-disable no-unused-vars */
 import { useNavigate } from "react-router-dom"
-import API from "../Functions/API"
+import API from "@functions/API"
 import {useEffect, useState } from "react"
 import lodash from 'lodash'
 

@@ -1,4 +1,4 @@
-import Authpage from "../Auth/Auth"
+import Authpage from "@templates/Auth/Auth"
 
 const Loginpage = () => {
     return(
